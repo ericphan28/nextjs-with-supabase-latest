@@ -1,20 +1,22 @@
 # 📊 THEO DÕI TIẾN ĐỘ DỰ ÁN
 
-## 🎯 Tuần hiện tại: **Tuần 1**
+## 🎯 Tuần hiện tại: **Tuần 1**  
 ## 📅 Ngày bắt đầu: **9/6/2025**
 
 ### ✅ ĐÃ HOÀN THÀNH:
 - [x] Theme system setup (Light/Dark/System)
-- [x] Database schema design
-- [x] TypeScript types
+- [x] TypeScript types design
 - [x] Project structure
 - [x] Roadmap chi tiết
+- [x] Progress tracker setup
+- [x] **Database schema creation** ✅ (Vừa xong!)
+- [x] **Database setup script** ✅ (Đã lưu để tái sử dụng)
 
 ### 🔄 ĐANG LÀM:
-- [ ] Dashboard overview page
-- [ ] Products management
+- [ ] **Dashboard overview page** ⭐ (Bước tiếp theo)
 
 ### 📋 KẾ TIẾP:
+- [ ] Products management
 - [ ] Customers management  
 - [ ] Orders processing
 
@@ -22,5 +24,7 @@
 - Không có
 
 ### 💡 GHI CHÚ:
-- Roadmap đã commit lên GitHub để tham khảo
-- Tránh xử lý linh tinh, follow đúng roadmap
+- ✅ Database schema script đã lưu tại `/database/setup.sql`
+- ✅ Có hướng dẫn chi tiết trong `/database/README.md`
+- 🎯 **TIẾP THEO**: Tạo Dashboard overview page theo roadmap
+- 📁 Files có thể tái sử dụng cho các dự án khác
