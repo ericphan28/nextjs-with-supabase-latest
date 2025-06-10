@@ -22,6 +22,9 @@ interface Product {
   created_at: string;
 }
 
+// 🔧 Fix: Thêm type cho Badge variant
+type BadgeVariant = "default" | "destructive" | "outline" | "secondary";
+
 export function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,7 +67,8 @@ export function ProductsList() {
     }).format(amount);
   };
 
-  const getStockStatus = (current: number, min: number) => {
+  // 🔧 Fix: Thay đổi return type để tránh any
+  const getStockStatus = (current: number, min: number): { text: string; color: BadgeVariant } => {
     if (current === 0) return { text: 'Hết hàng', color: 'destructive' };
     if (current <= min) return { text: 'Sắp hết', color: 'secondary' };
     return { text: 'Còn hàng', color: 'default' };
@@ -126,7 +130,8 @@ export function ProductsList() {
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start gap-2">
                   <CardTitle className="text-lg line-clamp-2 flex-1">{product.name}</CardTitle>
-                  <Badge variant={stockStatus.color as any} className="shrink-0">
+                  {/* 🔧 Fix: Bỏ as any, dùng type được define */}
+                  <Badge variant={stockStatus.color} className="shrink-0">
                     {stockStatus.text}
                   </Badge>
                 </div>
@@ -180,7 +185,7 @@ export function ProductsList() {
                 {/* Actions */}
                 <div className="flex gap-2 pt-2">
                   <Button asChild size="sm" variant="outline" className="flex-1">
-                    <Link href={`/products/${product.id}/edit`}>
+                    <Link href={`/dashboard/products/${product.id}/edit`}>
                       <Edit className="h-4 w-4 mr-2" />
                       Sửa
                     </Link>
@@ -207,7 +212,7 @@ export function ProductsList() {
               : "Chưa có sản phẩm nào trong hệ thống"}
           </p>
           <Button asChild>
-            <Link href="/products/create">
+            <Link href="/dashboard/products/create">
               <Plus className="h-4 w-4 mr-2" />
               Thêm sản phẩm đầu tiên
             </Link>
