@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Edit, Trash2, AlertTriangle, Package, Plus } from "lucide-react";
 import Link from "next/link";
+import { ProductsViewToggle } from "./products-view-toggle";
+import { ProductsTable } from "./products-table";
 
 interface Product {
   id: string;
@@ -22,14 +24,15 @@ interface Product {
   created_at: string;
 }
 
-// 🔧 Fix: Thêm type cho Badge variant
 type BadgeVariant = "default" | "destructive" | "outline" | "secondary";
+type ViewType = 'card' | 'table';
 
 export function ProductsList() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [view, setView] = useState<ViewType>('card');
 
   useEffect(() => {
     fetchProducts();
@@ -67,7 +70,6 @@ export function ProductsList() {
     }).format(amount);
   };
 
-  // 🔧 Fix: Thay đổi return type để tránh any
   const getStockStatus = (current: number, min: number): { text: string; color: BadgeVariant } => {
     if (current === 0) return { text: 'Hết hàng', color: 'destructive' };
     if (current <= min) return { text: 'Sắp hết', color: 'secondary' };
@@ -111,95 +113,99 @@ export function ProductsList() {
         </select>
       </div>
 
-      {/* Products Count */}
+      {/* Products Count & View Toggle */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-muted-foreground">
           Hiển thị {filteredProducts.length} sản phẩm
         </p>
+        <ProductsViewToggle view={view} onViewChange={setView} />
       </div>
 
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredProducts.map((product) => {
-          const stockStatus = getStockStatus(product.stock_quantity, product.min_stock_level);
-          const profit = product.price - (product.cost_price || 0);
-          const profitMargin = product.cost_price ? (profit / product.price * 100) : 0;
+      {/* Products Display - Card hoặc Table */}
+      {view === 'card' ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProducts.map((product) => {
+            const stockStatus = getStockStatus(product.stock_quantity, product.min_stock_level);
+            const profit = product.price - (product.cost_price || 0);
+            const profitMargin = product.cost_price ? (profit / product.price * 100) : 0;
 
-          return (
-            <Card key={product.id} className="hover:shadow-lg transition-all duration-200 border-l-4 border-l-primary/20">
-              <CardHeader className="pb-3">
-                <div className="flex justify-between items-start gap-2">
-                  <CardTitle className="text-lg line-clamp-2 flex-1">{product.name}</CardTitle>
-                  {/* 🔧 Fix: Bỏ as any, dùng type được define */}
-                  <Badge variant={stockStatus.color} className="shrink-0">
-                    {stockStatus.text}
-                  </Badge>
-                </div>
-                {product.sku && (
-                  <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>
-                )}
-              </CardHeader>
-              
-              <CardContent className="space-y-4">
-                {/* Price Info */}
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Giá bán:</span>
-                    <span className="font-semibold text-green-600 text-lg">
-                      {formatCurrency(product.price)}
-                    </span>
+            return (
+              <Card key={product.id} className="hover:shadow-lg transition-all duration-200 border-l-4 border-l-primary/20">
+                <CardHeader className="pb-3">
+                  <div className="flex justify-between items-start gap-2">
+                    <CardTitle className="text-lg line-clamp-2 flex-1">{product.name}</CardTitle>
+                    <Badge variant={stockStatus.color} className="shrink-0">
+                      {stockStatus.text}
+                    </Badge>
                   </div>
-                  {product.cost_price && (
-                    <>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Giá vốn:</span>
-                        <span className="text-sm">{formatCurrency(product.cost_price)}</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-sm text-muted-foreground">Lợi nhuận:</span>
-                        <span className="text-sm font-medium text-blue-600">
-                          {formatCurrency(profit)} ({profitMargin.toFixed(1)}%)
-                        </span>
-                      </div>
-                    </>
+                  {product.sku && (
+                    <p className="text-sm text-muted-foreground">SKU: {product.sku}</p>
                   )}
-                </div>
-
-                {/* Stock Info */}
-                <div className="flex justify-between items-center p-2 bg-muted/50 rounded-lg">
-                  <span className="text-sm text-muted-foreground">Tồn kho:</span>
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium text-lg">{product.stock_quantity}</span>
-                    {product.stock_quantity <= product.min_stock_level && (
-                      <AlertTriangle className="h-4 w-4 text-orange-500" />
+                </CardHeader>
+                
+                <CardContent className="space-y-4">
+                  {/* Price Info */}
+                  <div className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-muted-foreground">Giá bán:</span>
+                      <span className="font-semibold text-green-600 text-lg">
+                        {formatCurrency(product.price)}
+                      </span>
+                    </div>
+                    {product.cost_price && (
+                      <>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Giá vốn:</span>
+                          <span className="text-sm">{formatCurrency(product.cost_price)}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-sm text-muted-foreground">Lợi nhuận:</span>
+                          <span className="text-sm font-medium text-blue-600">
+                            {formatCurrency(profit)} ({profitMargin.toFixed(1)}%)
+                          </span>
+                        </div>
+                      </>
                     )}
                   </div>
-                </div>
 
-                {/* Category */}
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Danh mục:</span>
-                  <Badge variant="outline">{product.category}</Badge>
-                </div>
+                  {/* Stock Info */}
+                  <div className="flex justify-between items-center p-2 bg-muted/50 rounded-lg">
+                    <span className="text-sm text-muted-foreground">Tồn kho:</span>
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-lg">{product.stock_quantity}</span>
+                      {product.stock_quantity <= product.min_stock_level && (
+                        <AlertTriangle className="h-4 w-4 text-orange-500" />
+                      )}
+                    </div>
+                  </div>
 
-                {/* Actions */}
-                <div className="flex gap-2 pt-2">
-                  <Button asChild size="sm" variant="outline" className="flex-1">
-                    <Link href={`/dashboard/products/${product.id}/edit`}>
-                      <Edit className="h-4 w-4 mr-2" />
-                      Sửa
-                    </Link>
-                  </Button>
-                  <Button size="sm" variant="outline" className="flex-1 text-red-600 hover:text-red-700">
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Xóa
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          );
-        })}
-      </div>
+                  {/* Category */}
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">Danh mục:</span>
+                    <Badge variant="outline">{product.category}</Badge>
+                  </div>
+
+                  {/* Actions */}
+                  <div className="flex gap-2 pt-2">
+                    <Button asChild size="sm" variant="outline" className="flex-1">
+                      <Link href={`/dashboard/products/${product.id}/edit`}>
+                        <Edit className="h-4 w-4 mr-2" />
+                        Sửa
+                      </Link>
+                    </Button>
+                    <Button size="sm" variant="outline" className="flex-1 text-red-600 hover:text-red-700">
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Xóa
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            );
+          })}
+        </div>
+      ) : (
+        <ProductsTable products={filteredProducts} />
+      )}
 
       {/* Empty State */}
       {filteredProducts.length === 0 && (
