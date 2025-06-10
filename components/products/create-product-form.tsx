@@ -89,8 +89,10 @@ export function CreateProductForm() {
 
       router.push("/dashboard/products");
       router.refresh();
-    } catch (error: any) {
-      setError(error.message || "Có lỗi xảy ra khi tạo sản phẩm");
+    } catch (error: unknown) {
+      // Fix ESLint error: Replace 'any' with 'unknown' and proper type checking
+      const errorMessage = error instanceof Error ? error.message : "Có lỗi xảy ra khi tạo sản phẩm";
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
