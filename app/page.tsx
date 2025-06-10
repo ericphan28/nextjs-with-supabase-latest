@@ -12,7 +12,6 @@ import {
   Bell,
   DollarSign,
   Smartphone,
-  Shield,
   FileSpreadsheet,
   Headphones,
   ArrowRight,
@@ -20,7 +19,6 @@ import {
   Store,
   Hammer,
   Tractor,
-  Coffee,
   Star,
   Pizza,
   Shirt,
@@ -271,7 +269,7 @@ export default function Home() {
                         <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                       ))}
                     </div>
-                    <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
+                    <p className="text-muted-foreground italic">&ldquo;{testimonial.quote}&rdquo;</p>
                   </div>
                   <div className="border-t pt-4">
                     <p className="font-semibold">{testimonial.author}</p>
