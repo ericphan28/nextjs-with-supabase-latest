@@ -22,22 +22,26 @@ export function LowStockAlerts() {
       try {
         const supabase = createClient();
         
-        // Query products where current_stock <= min_stock_level
+        // 🔧 FIX: Proper query to compare columns
         const { data, error } = await supabase
           .from('products')
           .select('id, name, current_stock, min_stock_level, price')
-          .lte('current_stock', 'min_stock_level')
           .order('current_stock', { ascending: true })
-          .limit(10);
+          .limit(50); // Get more products first
 
         if (error) {
-          console.error('Error fetching low stock products:', error);
+          console.error('Supabase query error:', error);
           return;
         }
 
-        setLowStockProducts(data || []);
+        // 🔧 FIX: Filter in JavaScript instead of SQL
+        const filteredProducts = (data || []).filter(product => 
+          product.current_stock <= product.min_stock_level
+        ).slice(0, 10); // Take first 10 after filtering
+
+        setLowStockProducts(filteredProducts);
       } catch (error) {
-        console.error('Error:', error);
+        console.error('Error fetching low stock products:', error);
       } finally {
         setLoading(false);
       }
@@ -59,15 +63,13 @@ export function LowStockAlerts() {
     return { text: 'Thấp', color: 'bg-yellow-100 text-yellow-800' };
   };
 
+  const handleRestock = (productId: string): void => {
+    console.log('Restock product:', productId);
+  };
+
   if (loading) {
     return <div className="flex justify-center py-4">Đang kiểm tra tồn kho...</div>;
   }
-
-  // 🔧 FIX: Use proper type instead of any
-  const handleRestock = (productId: string): void => {
-    // Handle restock logic here
-    console.log('Restock product:', productId);
-  };
 
   if (lowStockProducts.length === 0) {
     return (
