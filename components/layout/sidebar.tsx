@@ -37,10 +37,10 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
     {
       title: "Sản phẩm",
       icon: Package,
-      href: "/products",
+      href: "/dashboard/products",
       color: "text-green-500",
       children: [
-        { title: "Tất cả sản phẩm", href: "/products" },
+        { title: "Tất cả sản phẩm", href: "/dashboard/products" },
         { title: "Danh mục", href: "/products/categories" },
         { title: "Thêm sản phẩm", href: "/products/create" },
         { title: "Tồn kho", href: "/products/inventory" }
