@@ -17,13 +17,15 @@ export function LogoutButton() {
 
   return (
     <Button
-      variant="outline"
+      variant="ghost"
       size="sm"
       onClick={handleLogout}
-      className="flex items-center gap-2"
+      className="h-6 px-1.5 py-0 text-xs gap-1 lg:h-8 lg:px-3" // 🔧 FIX: Responsive sizing
     >
-      <LogOut className="w-4 h-4" />
-      Đăng xuất
+      <LogOut className="w-3 h-3 lg:w-4 lg:h-4" />
+      <span className="hidden sm:inline lg:inline"> {/* 🔧 FIX: Hide text on very small mobile */}
+        Đăng xuất
+      </span>
     </Button>
   );
 }

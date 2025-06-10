@@ -108,59 +108,78 @@ export function RecentOrders() {
     return <div className="flex justify-center py-4">Đang tải đơn hàng...</div>;
   }
 
+  // 🔧 FIX: Mobile-responsive empty state
   if (orders.length === 0) {
     return (
       <div className="text-center py-8">
         <ShoppingCart className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
         <h3 className="text-lg font-semibold mb-2">Chưa có đơn hàng nào</h3>
-        <p className="text-muted-foreground mb-4">
+        <p className="text-muted-foreground mb-4 text-sm px-2">
           Tạo đơn hàng đầu tiên để bắt đầu bán hàng
         </p>
-        <div className="flex gap-2 justify-center">
-          <Button asChild>
-            <Link href="/orders/create" className="flex items-center gap-2">
+        
+        {/* 🔧 FIX: Responsive button container */}
+        <div className="flex flex-col sm:flex-row gap-2 justify-center px-4">
+          
+          {/* 🔧 FIX: Primary button - responsive text */}
+          <Button asChild className="w-full sm:w-auto">
+            <Link href="/orders/create" className="flex items-center justify-center gap-2">
               <Plus className="w-4 h-4" />
-              Tạo đơn hàng đầu tiên
+              <span className="hidden xs:inline">Tạo đơn hàng đầu tiên</span>
+              <span className="xs:hidden">Tạo đơn hàng</span>
             </Link>
           </Button>
-          <Button variant="outline" asChild>
-            <Link href="/products">Xem sản phẩm</Link>
+          
+          {/* 🔧 FIX: Secondary button - responsive text */}
+          <Button variant="outline" asChild className="w-full sm:w-auto">
+            <Link href="/products" className="flex items-center justify-center gap-2">
+              <span className="hidden xs:inline">Xem sản phẩm</span>
+              <span className="xs:hidden">Sản phẩm</span>
+            </Link>
           </Button>
+          
         </div>
       </div>
     );
   }
 
+  // 🔧 FIX: Orders list with mobile-responsive layout
   return (
     <div className="space-y-4">
       {orders.map((order) => (
-        <div key={order.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors">
-          <div className="flex-1">
-            <div className="flex items-center gap-2 mb-1">
-              <span className="font-medium">#{order.order_number}</span>
-              <Badge className={getStatusColor(order.status)}>
+        <div key={order.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg hover:bg-accent/50 transition-colors gap-2">
+          
+          {/* 🔧 FIX: Order info section */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1 flex-wrap">
+              <span className="font-medium text-sm">#{order.order_number}</span>
+              <Badge className={`${getStatusColor(order.status)} text-xs`}>
                 {getStatusText(order.status)}
               </Badge>
             </div>
-            <div className="text-sm text-muted-foreground">
+            <div className="text-sm text-muted-foreground truncate">
               {order.customer?.name || 'Khách lẻ'} • {new Date(order.created_at).toLocaleDateString('vi-VN')}
             </div>
           </div>
-          <div className="text-right">
-            <div className="font-semibold">
+          
+          {/* 🔧 FIX: Amount section */}
+          <div className="text-left sm:text-right">
+            <div className="font-semibold text-sm">
               {formatCurrency(order.total_amount)}
             </div>
           </div>
+          
         </div>
       ))}
-      
-      <div className="text-center">
-        <a 
+
+      {/* 🔧 FIX: View all link */}
+      <div className="text-center pt-2">
+        <Link 
           href="/orders" 
-          className="text-sm text-primary hover:underline"
+          className="text-sm text-primary hover:underline inline-flex items-center gap-1"
         >
           Xem tất cả đơn hàng →
-        </a>
+        </Link>
       </div>
     </div>
   );
