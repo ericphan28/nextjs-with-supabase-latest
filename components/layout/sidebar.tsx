@@ -1,11 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+// import { useState, useEffect } from "react"; // 🔧 REMOVE: Unused imports
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-// 🔧 FIX: Remove problematic imports
-// import { ScrollArea } from "@/components/ui/scroll-area";
-// import { Separator } from "@/components/ui/separator";
 import { 
   X, 
   Home, 
@@ -14,9 +11,9 @@ import {
   Users, 
   BarChart3, 
   Settings,
-  Code, // 🔧 CHANGE: Store → Code (cho GiaKiemSo)
+  Code,
   TrendingUp,
-  AlertTriangle
+  // AlertTriangle // 🔧 REMOVE: Unused import
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -81,7 +78,6 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
 
   return (
     <>
-      {/* Desktop Sidebar */}
       <div className={cn(
         "fixed inset-y-0 left-0 z-50 w-64 bg-card border-r border-border transform transition-transform duration-300 ease-in-out",
         isMobile ? (isOpen ? "translate-x-0" : "-translate-x-full") : "translate-x-0",
@@ -146,6 +142,14 @@ export function Sidebar({ isOpen, onClose, isMobile }: SidebarProps) {
         <div className="flex-1 overflow-y-auto py-2">
           <div className="px-3 space-y-1">
             
+            {/* System Status - Activity Indicator */}
+            <div className="mb-4 p-2 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+              <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
+                <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
+                <span className="text-xs font-medium">Hệ thống GiaKiemSo đang hoạt động</span>
+              </div>
+            </div>
+
             {/* Navigation Items */}
             {navigationItems.map((item) => (
               <div key={item.href}>

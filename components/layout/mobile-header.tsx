@@ -1,6 +1,7 @@
 "use client";
 
-import { Menu, Bell, Search } from "lucide-react";
+import { Menu } from "lucide-react";
+// import { Bell, Search } from "lucide-react"; // 🔧 REMOVE: Unused imports
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LogoutButton } from "@/components/logout-button";
@@ -32,15 +33,12 @@ export function MobileHeader({ onMenuClick }: MobileHeaderProps) {
 
         {/* Right: Essential actions only */}
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <Search className="h-4 w-4" />
-            <span className="sr-only">Search</span>
-          </Button>
-
+          {/* Theme toggle - compact */}
           <div className="[&>button]:h-8 [&>button]:w-8">
             <ThemeToggle />
           </div>
 
+          {/* Logout - icon only on mobile */}
           <div className="[&>button]:h-8 [&>button]:px-2">
             <LogoutButton />
           </div>

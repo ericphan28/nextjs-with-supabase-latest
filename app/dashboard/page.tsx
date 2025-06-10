@@ -7,7 +7,6 @@ import { LowStockAlerts } from "@/components/dashboard/low-stock-alerts";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   ShoppingCart, 
-  Users, 
   TrendingUp, 
   AlertTriangle
 } from "lucide-react";
@@ -15,7 +14,6 @@ import {
 export default function DashboardPage() {
   return (
     <div className="space-y-6">
-
       {/* Stats Cards */}
       <Suspense fallback={<div>Đang tải thống kê...</div>}>
         <StatsCards />
@@ -75,14 +73,14 @@ export default function DashboardPage() {
       </Card>
 
       {/* Quick Actions - RESPONSIVE BUTTONS */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"> {/* 🔧 FIX: md:grid-cols-4 → sm:grid-cols-2 lg:grid-cols-4 */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
         <Link href="/products/create">
           <Card className="hover:shadow-md hover:scale-105 transition-all cursor-pointer">
-            <CardContent className="p-3 text-center"> {/* 🔧 FIX: p-4 → p-3 (compact padding) */}
-              <div className="text-xl mb-2">➕</div> {/* 🔧 FIX: text-2xl → text-xl (smaller icon) */}
-              <h3 className="font-semibold text-sm">Thêm sản phẩm</h3> {/* 🔧 FIX: Add text-sm */}
-              <p className="text-xs text-muted-foreground">Tạo sản phẩm mới</p> {/* 🔧 FIX: text-sm → text-xs */}
+            <CardContent className="p-3 text-center">
+              <div className="text-xl mb-2">➕</div>
+              <h3 className="font-semibold text-sm">Thêm sản phẩm</h3>
+              <p className="text-xs text-muted-foreground">Tạo sản phẩm mới</p>
             </CardContent>
           </Card>
         </Link>
@@ -91,7 +89,7 @@ export default function DashboardPage() {
           <Card className="hover:shadow-md hover:scale-105 transition-all cursor-pointer">
             <CardContent className="p-3 text-center">
               <div className="text-xl mb-2">🛒</div>
-              <h3 className="font-semibold text-sm">Tạo đơn hàng</h3> {/* 🔧 FIX: Shorter text */}
+              <h3 className="font-semibold text-sm">Tạo đơn hàng</h3>
               <p className="text-xs text-muted-foreground">Đơn hàng mới</p>
             </CardContent>
           </Card>
