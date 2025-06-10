@@ -1,19 +1,9 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { CardDescription } from "@/components/ui/card"; // 🔧 REMOVE: Unused import
-// import { Badge } from "@/components/ui/badge"; // 🔧 REMOVE: Unused import
 import { TrendingUp, TrendingDown, ShoppingCart, Users, Package, AlertTriangle } from "lucide-react";
 
 export function StatsCards() {
-  // 🔧 REMOVE: Unused variable
-  // const testData = {
-  //   revenue: 0,
-  //   orders: 0,
-  //   customers: 2,
-  //   lowStock: 0
-  // };
-
   // Mock data for now - replace with real Supabase queries
   const stats = [
     {
@@ -54,7 +44,6 @@ export function StatsCards() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
       {stats.map((stat, index) => {
         const Icon = stat.icon;
-        const isPositive = stat.trend === "up";
         
         return (
           <Card key={index} className="hover:shadow-md transition-shadow">
