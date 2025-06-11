@@ -10,6 +10,7 @@ import { Search, Edit, Trash2, AlertTriangle, Package, Plus } from "lucide-react
 import Link from "next/link";
 import { ProductsViewToggle } from "./products-view-toggle";
 import { ProductsTable } from "./products-table";
+import { DeleteProductDialog } from "./delete-product-dialog";
 
 interface Product {
   id: string;
@@ -193,10 +194,10 @@ export function ProductsList() {
                         Sửa
                       </Link>
                     </Button>
-                    <Button size="sm" variant="outline" className="flex-1 text-red-600 hover:text-red-700">
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Xóa
-                    </Button>
+                    <DeleteProductDialog
+                      productId={product.id}
+                      productName={product.name}
+                    />
                   </div>
                 </CardContent>
               </Card>
