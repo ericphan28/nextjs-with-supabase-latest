@@ -8,6 +8,20 @@
     "typescriptreact"
   ],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
+    "source.fixAll.eslint": "explicit"
+  },
+  
+  // 🔧 TypeScript settings để phát hiện lỗi tốt hơn
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "typescript.suggest.autoImports": true,
+  "typescript.validate.enable": true,
+  "typescript.reportStyleChecksAsWarnings": true,
+  "typescript.check.npmIsInstalled": true,
+  
+  // 🎯 Sử dụng workspace TypeScript version
+  "typescript.suggest.completeFunctionCalls": true,
+  
+  // 📋 Show TypeScript errors prominently
+  "problems.showCurrentInStatus": true,
+  "typescript.surveys.enabled": false
 }
