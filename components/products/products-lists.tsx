@@ -6,10 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, Edit, Trash2, AlertTriangle, Package, Plus } from "lucide-react";
+import { Search, Edit, AlertTriangle, Package, Plus } from "lucide-react";
 import Link from "next/link";
 import { ProductsViewToggle } from "./products-view-toggle";
 import { ProductsTable } from "./products-table";
+import { DeleteProductDialog } from "./delete-product-dialog"; // 🆕 Add import
 
 interface Product {
   id: string;
@@ -54,6 +55,11 @@ export function ProductsList() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // 🆕 Callback function để refresh data sau khi xóa
+  const handleDeleteSuccess = () => {
+    fetchProducts(); // Refresh danh sách sản phẩm
   };
 
   const filteredProducts = products.filter(product => {
@@ -185,7 +191,7 @@ export function ProductsList() {
                     <Badge variant="outline">{product.category}</Badge>
                   </div>
 
-                  {/* Actions */}
+                  {/* Actions - 🔧 Updated với DeleteProductDialog */}
                   <div className="flex gap-2 pt-2">
                     <Button asChild size="sm" variant="outline" className="flex-1">
                       <Link href={`/dashboard/products/${product.id}/edit`}>
@@ -193,10 +199,15 @@ export function ProductsList() {
                         Sửa
                       </Link>
                     </Button>
-                    <Button size="sm" variant="outline" className="flex-1 text-red-600 hover:text-red-700">
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Xóa
-                    </Button>
+                    
+                    {/* 🆕 Replace button với DeleteProductDialog component */}
+                    <div className="flex-1">
+                      <DeleteProductDialog
+                        productId={product.id}
+                        productName={product.name}
+                        onSuccess={handleDeleteSuccess}
+                      />
+                    </div>
                   </div>
                 </CardContent>
               </Card>
