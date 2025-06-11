@@ -108,7 +108,7 @@ export function DeleteProductDialog({
           <div className="font-medium text-foreground bg-muted/50 p-3 rounded-lg border-l-4 border-l-red-500">
             <div className="flex items-center gap-2">
               <span className="text-red-500">📦</span>
-              "{productName}"
+              &quot;{productName}&quot;
             </div>
           </div>
           <div className="text-sm text-muted-foreground bg-red-50 dark:bg-red-950 p-3 rounded-lg border border-red-200 dark:border-red-800">
